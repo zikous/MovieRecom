@@ -1,4 +1,10 @@
-
+/* src/pages/Popular/Popular.css */
+body {
+    background: #A41164;
+    background: -moz-linear-gradient(45deg, #A41164 0%, #CB23A8 30%, #144E75 100%);
+    background: -webkit-linear-gradient(45deg, #A41164 0%, #CB23A8 30%, #144E75 100%);
+    background: linear-gradient(45deg, #A41164 0%, #CB23A8 30%, #144E75 100%);
+  }
   
   .Popular {
     text-align: center;
@@ -13,13 +19,11 @@
   
   .movie-item {
     position: relative;
-    /* background: rgba(0, 0, 0, 0.235); */
     padding: 10px;
     border-radius: 8px;
     text-align: center;
     overflow: hidden;
     transition: transform 0.3s ease, z-index 0s ease 0.3s;
-    -webkit-box-shadow: 0px 0px 19px 3px rgb(0, 0, 0); 
     box-shadow: 0px 0px 19px 3px rgb(0, 0, 0);
   }
   
