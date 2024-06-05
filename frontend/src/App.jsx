@@ -5,7 +5,8 @@ import Layout from './components/Layout/Layout';
 import Counter from './pages/Counter/Counter';
 import Users from './pages/Users/Users';
 import Popular from './pages/Popular/Popular';
-
+import TopRated from './pages/Top Rated/TopRated';
+import Upcoming from './pages/Upcoming/Upcoming';
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
         <Route path="users" element={<Users />} />
         <Route path="about" element={<About />} />
         <Route path="Popular" element={<Popular />} />
+        <Route path="TopRated" element={<TopRated />} />
+        <Route path="Upcoming" element={<Upcoming />} />
       </Routes>
     </Layout>
   );

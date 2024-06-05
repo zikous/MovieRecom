@@ -63,7 +63,7 @@ const Header = () => {
         <Link to="/popular">
           <span>Popular</span>
         </Link>
-        <Link to="/top-rated">
+        <Link to="/toprated">
           <span>Top Rated</span>
         </Link>
         <Link to="/upcoming">
