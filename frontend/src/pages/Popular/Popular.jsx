@@ -1,12 +1,13 @@
 // src/pages/Popular/Popular.jsx
 import './Popular.css';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 function Popular() {
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const loader = useRef(null);
 
   useEffect(() => {
     const fetchMovies = (page) => {
@@ -23,9 +24,8 @@ function Popular() {
       axios
         .request(options)
         .then(function (response) {
-          console.log(response.data);
-          setMovies(response.data.results);
-          setTotalPages(response.data.total_pages); // Update total pages from the response
+          setMovies(prevMovies => [...prevMovies, ...response.data.results]);
+          setTotalPages(response.data.total_pages);
         })
         .catch(function (error) {
           console.error(error);
@@ -35,32 +35,31 @@ function Popular() {
     fetchMovies(currentPage);
   }, [currentPage]);
 
+  const handleObserver = useCallback((entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  }, []);
+
+  useEffect(() => {
+    const option = {
+      root: null,
+      rootMargin: "20px",
+      threshold: 1.0
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (loader.current) observer.observe(loader.current);
+    
+    return () => observer.disconnect();
+  }, [handleObserver]);
+
   const truncateDescription = (description, wordLimit) => {
     const words = description.split(' ');
     if (words.length > wordLimit) {
       return words.slice(0, wordLimit).join(' ') + '...';
     }
     return description;
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const renderPagination = () => {
-    const pages = [];
-    for (let i = 1; i <= totalPages && i <= 10; i++) { // Limiting to 10 pages for simplicity
-      pages.push(
-        <button
-          key={i}
-          className={`pagination-button ${currentPage === i ? 'active' : ''}`}
-          onClick={() => handlePageChange(i)}
-        >
-          {i}
-        </button>
-      );
-    }
-    return pages;
   };
 
   return (
@@ -76,14 +75,14 @@ function Popular() {
               />
               <div className="movie-description">
                 <h2>{movie.title}</h2>
-                <p>{truncateDescription(movie.overview, 40)}</p>
+                <p>{truncateDescription(movie.overview, 60)}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
-      <div className="pagination">
-        {renderPagination()}
+      <div ref={loader} className="loader">
+        <h2>Loading...</h2>
       </div>
     </div>
   );
