@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import About from './pages/About/About';
@@ -16,9 +17,9 @@ function App() {
         <Route path="counter" element={<Counter />} />
         <Route path="users" element={<Users />} />
         <Route path="about" element={<About />} />
-        <Route path="Popular" element={<Popular />} />
-        <Route path="TopRated" element={<TopRated />} />
-        <Route path="Upcoming" element={<Upcoming />} />
+        <Route path="popular" element={<Popular />} />
+        <Route path="toprated" element={<TopRated />} />
+        <Route path="upcoming" element={<Upcoming />} />
       </Routes>
     </Layout>
   );

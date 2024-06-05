@@ -6,6 +6,15 @@
   background-color: #282c34;
   padding: 10px 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: backgroundAnimation 20s infinite alternate linear;
+  cursor: url('your-custom-cursor.png'), auto; /* Custom cursor */
+  font-family: 'Roboto', sans-serif; /* Google Font Roboto */
+}
+
+@keyframes backgroundAnimation {
+  0% { background-color: #282c34; }
+  50% { background-color: #21252b; }
+  100% { background-color: #282c34; }
 }
 
 /* Styling for the left section of the header */
@@ -22,14 +31,16 @@
 
 /* Styling for the logo */
 .header_icon {
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   margin-right: 15px;
   transition: transform 0.3s;
+  background: none; /* Change background color to none */
 }
 
+/* Optional: Add hover effect */
 .header_icon:hover {
-  transform: rotate(360deg);
+  transform: rotate(360deg) scale(1.1);
 }
 
 /* Styling for the links and menu button */
@@ -46,6 +57,7 @@
   display: inline-flex;
   align-items: center;
   height: 50px;     /* Ensuring same height as other links */
+  font-weight: 500; /* Bold font weight */
 }
 
 .headerLeft a:hover, .menu-button:hover {
@@ -65,9 +77,10 @@
 .dropdown {
   position: relative;
 }
-/* Styling for the dropdown menu */
+
+/* Styling for the dropdown content */
 .dropdown-content {
-  display: grid;
+  display: none; /* Initially hide the dropdown */
   grid-template-columns: repeat(5, 1fr); /* Arrange items into four columns */
   gap: 10px; /* Add some gap between items for better readability */
   position: absolute;
@@ -78,27 +91,30 @@
   border-radius: 8px;
   padding: 10px;
   z-index: 1;
-  opacity: 0;
   transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease, display 0s linear 0.3s; /* Delay display change */
   max-height: 400px; /* Limit dropdown height */
   overflow-y: auto; /* Add scrollbar when content exceeds max height */
 }
 
 .dropdown:hover .dropdown-content {
+  display: grid; /* Change to grid when hovered */
   opacity: 1;
   transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Immediate opacity and transform changes */
 }
 
 /* Genre links */
 .dropdown-content a {
   color: #61dafb;
-  padding: 10px;
   text-decoration: none;
-  display: block;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
   transition: background-color 0.3s, color 0.3s;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 16px;
 }
 
 .dropdown-content a:hover {
@@ -108,18 +124,14 @@
 
 /* Improved styling for genre links */
 .dropdown-content a {
-  padding: 8px 12px;
+  padding: 10px;
   margin: 5px;
-  text-align: center;
-  font-size: 14px;
+  font-weight: 500; /* Bold font weight */
 }
 
 .dropdown-content a:hover {
   background-color: #61dafb;
 }
-
-
-
 
 /* Styling for the search bar */
 .search-bar {
@@ -144,6 +156,7 @@
   padding: 5px;
   font-size: 16px;
   flex-grow: 1;
+  font-family: 'Roboto', sans-serif; /* Google Font Roboto */
 }
 
 .search-bar button {
@@ -151,7 +164,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  color: #61dafb;
+  color: #21a1f1;
   font-size: 16px;
   padding: 5px;
 }
@@ -162,7 +175,7 @@
 
 /* Styling for the sign-in button */
 .sign-in-button {
-  background-color: #61dafb;
+  background-color: #21a1f1;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -173,11 +186,13 @@
   margin: 0 15px;
   cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .sign-in-button:hover {
-  background-color: #21a1f1;
+  background-color: #1e90ff;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(33, 161, 241, 0.5);
 }
 
 /* Responsive design adjustments */

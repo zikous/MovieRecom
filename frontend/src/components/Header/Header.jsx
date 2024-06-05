@@ -31,35 +31,39 @@ const Header = () => {
     fetchGenres();
   }, []);
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <div className="Header-container">
       <div className="headerLeft">
         <Link to="/">
           <img
             className="header_icon"
-            src="https://p1.hiclipart.com/preview/365/513/290/movie-logo-photographic-film-movie-camera-cinema-movie-projector-video-cameras-cinema-camera-circle-png-clipart.jpg"
+            src="https://i.ibb.co/Ryw9pcf/png-transparent-logo-clapperboard-product-design-marketing-movie-tape-text-service-logo-removebg-pre.png"
             alt="Logo"
           />
         </Link>
         <Link to="/">
           <span>Home</span>
         </Link>
-        <div
-          className="dropdown"
-          onMouseEnter={() => setDropdownOpen(true)}
-          onMouseLeave={() => setDropdownOpen(false)}
-        >
+        <div className="dropdown" onClick={toggleDropdown}>
           <span className="menu-button">Genre</span>
-          {isDropdownOpen && (
-            <div className="dropdown-content">
-              {genres.map((genre) => (
-                <Link key={genre.id} to={`/genre/${genre.name.toLowerCase()}`}>
-                  {genre.name}
-                </Link>
-              ))}
-            </div>
-          )}
+          <div className={`dropdown-content ${isDropdownOpen ? 'open' : ''}`}>
+            {genres.map((genre) => (
+              <Link
+                key={genre.id}
+                to={`/genre/${genre.id}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <i className={`fas fa-${genre.name.toLowerCase()}`}></i>{' '}
+                {genre.name}
+              </Link>
+            ))}
+          </div>
         </div>
+
         <Link to="/popular">
           <span>Popular</span>
         </Link>

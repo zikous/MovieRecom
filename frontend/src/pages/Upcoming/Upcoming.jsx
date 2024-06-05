@@ -17,14 +17,15 @@ function Upcoming() {
         params: { language: 'en-US', page: page },
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo'
-        }
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
       };
 
       axios
         .request(options)
         .then(function (response) {
-          setMovies(prevMovies => [...prevMovies, ...response.data.results]);
+          setMovies((prevMovies) => [...prevMovies, ...response.data.results]);
           setTotalPages(response.data.total_pages);
         })
         .catch(function (error) {
@@ -45,12 +46,12 @@ function Upcoming() {
   useEffect(() => {
     const option = {
       root: null,
-      rootMargin: "20px",
-      threshold: 1.0
+      rootMargin: '20px',
+      threshold: 1.0,
     };
     const observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) observer.observe(loader.current);
-    
+
     return () => observer.disconnect();
   }, [handleObserver]);
 
@@ -69,8 +70,8 @@ function Upcoming() {
         {movies.map((movie) => (
           <div className="movie-item" key={movie.id}>
             <div className="movie-poster">
-              <img 
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
               />
               <div className="movie-description">
