@@ -5,28 +5,35 @@ import { useEffect, useState } from 'react';
 
 function Popular() {
   const [movies, setMovies] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      url: 'https://api.themoviedb.org/3/movie/popular',
-      params: { language: 'en-US', page: '1' },
-      headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer YOUR_API_KEY_HERE'
-      }
+    const fetchMovies = (page) => {
+      const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/movie/popular',
+        params: { language: 'en-US', page: page },
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo'
+        }
+      };
+
+      axios
+        .request(options)
+        .then(function (response) {
+          console.log(response.data);
+          setMovies(response.data.results);
+          setTotalPages(response.data.total_pages); // Update total pages from the response
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     };
 
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log(response.data);
-        setMovies(response.data.results);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }, []);
+    fetchMovies(currentPage);
+  }, [currentPage]);
 
   const truncateDescription = (description, wordLimit) => {
     const words = description.split(' ');
@@ -34,6 +41,26 @@ function Popular() {
       return words.slice(0, wordLimit).join(' ') + '...';
     }
     return description;
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages && i <= 10; i++) { // Limiting to 10 pages for simplicity
+      pages.push(
+        <button
+          key={i}
+          className={`pagination-button ${currentPage === i ? 'active' : ''}`}
+          onClick={() => handlePageChange(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+    return pages;
   };
 
   return (
@@ -54,6 +81,9 @@ function Popular() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="pagination">
+        {renderPagination()}
       </div>
     </div>
   );

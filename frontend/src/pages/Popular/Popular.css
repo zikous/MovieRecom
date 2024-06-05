@@ -1,4 +1,15 @@
-.Popular {
+/* src/pages/Popular/Popular.css */
+body {
+    background: #A41164;
+    background: -moz-linear-gradient(45deg, #A41164 0%, #CB23A8 30%, #144E75 100%);
+    background: -webkit-linear-gradient(45deg, #A41164 0%, #CB23A8 30%, #144E75 100%);
+    background: linear-gradient(45deg, #A41164 0%, #CB23A8 30%, #144E75 100%);
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .Popular {
     text-align: center;
     padding: 20px;
   }
@@ -7,23 +18,24 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+    padding: 20px;
   }
   
   .movie-item {
     position: relative;
-    /* background: rgba(0, 0, 0, 0.235); */
     padding: 10px;
     border-radius: 8px;
     text-align: center;
     overflow: hidden;
-    transition: transform 0.3s ease, z-index 0s ease 0.3s;
-    -webkit-box-shadow: 0px 0px 19px 3px rgb(0, 0, 0); 
-    box-shadow: 0px 0px 19px 3px rgb(0, 0, 0);
+    transition: transform 0.3s ease, z-index 0.3s ease;
+    box-shadow: 0px 0px 19px 3px rgba(0, 0, 0, 0.494);
+    background: rgba(0, 0, 0, 0.371);
+    z-index: 0;
   }
   
   .movie-item:hover {
     transform: scale(1.1);
-    z-index: 10;
+    z-index: 1;
   }
   
   .movie-poster {
@@ -60,7 +72,7 @@
     text-align: center;
   }
   
-  .movie-poster:hover .movie-description {
+  .movie-item:hover .movie-description {
     opacity: 1;
   }
   
@@ -73,3 +85,26 @@
     font-size: 1em;
     color: #ddd;
   }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .pagination-button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    border: none;
+    background-color: #144E75;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination-button.active,
+  .pagination-button:hover {
+    background-color: #CB23A8;
+  }
+  
