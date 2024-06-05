@@ -1,5 +1,8 @@
 .Layout-container {
-  background-color: #282c34;
+      background: #A41164;
+    background: -moz-linear-gradient(45deg, #A41164 0%, #CB23A8 30%, #144E75 100%);
+    background: -webkit-linear-gradient(45deg, #A41164 0%, #CB23A8 30%, #144E75 100%);
+    background: linear-gradient(45deg, #A41164 0%, #CB23A8 30%, #144E75 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
