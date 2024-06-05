@@ -1,16 +1,198 @@
+/* General styling for the header container */
 .Header-container {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 5px;
-  font-size: calc(10px + 2vmin);
+  justify-content: space-between;
+  align-items: center;
+  background-color: #282c34;
+  padding: 10px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.Header-container > :not(:last-child) {
-  margin-right: 10px;
+/* Styling for the left section of the header */
+.headerLeft {
+  display: flex;
+  align-items: center;
 }
 
-.Link {
-  font-weight: 700;
+/* Styling for the right section of the header */
+.headerRight {
+  display: flex;
+  align-items: center;
+}
+
+/* Styling for the logo */
+.header_icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+  transition: transform 0.3s;
+}
+
+.header_icon:hover {
+  transform: rotate(360deg);
+}
+
+/* Styling for the links and menu button */
+.headerLeft a, .menu-button {
+  color: #61dafb;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 18px;
+  transition: color 0.3s;
+  cursor: pointer;
+  background: none; /* Removing default button styling */
+  border: none;     /* Removing default button styling */
+  padding: 0;       /* Removing default button padding */
+  display: inline-flex;
+  align-items: center;
+  height: 50px;     /* Ensuring same height as other links */
+}
+
+.headerLeft a:hover, .menu-button:hover {
+  color: #21a1f1;
+  text-shadow: 0 0 5px rgba(33, 161, 241, 0.5);
+}
+
+.headerLeft a span, .menu-button span {
+  transition: transform 0.3s;
+}
+
+.headerLeft a:hover span, .menu-button:hover span {
+  transform: scale(1.1);
+}
+
+/* Styling for the dropdown menu */
+.dropdown {
+  position: relative;
+}
+/* Styling for the dropdown menu */
+.dropdown-content {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Arrange items into four columns */
+  gap: 10px; /* Add some gap between items for better readability */
+  position: absolute;
+  top: 50px; /* Aligns with header height */
+  background-color: #282c34;
+  border: 1px solid #61dafb;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-height: 400px; /* Limit dropdown height */
+  overflow-y: auto; /* Add scrollbar when content exceeds max height */
+}
+
+.dropdown:hover .dropdown-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Genre links */
+.dropdown-content a {
+  color: #61dafb;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dropdown-content a:hover {
+  background-color: #21a1f1;
   color: white;
+}
+
+/* Improved styling for genre links */
+.dropdown-content a {
+  padding: 8px 12px;
+  margin: 5px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.dropdown-content a:hover {
+  background-color: #61dafb;
+}
+
+
+
+
+/* Styling for the search bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-right: 20px;
+  width: 150px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.search-bar.open {
+  width: 300px;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
+  flex-grow: 1;
+}
+
+.search-bar button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #61dafb;
+  font-size: 16px;
+  padding: 5px;
+}
+
+.search-bar button:hover {
+  color: #21a1f1;
+}
+
+/* Styling for the sign-in button */
+.sign-in-button {
+  background-color: #61dafb;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.sign-in-button:hover {
+  background-color: #21a1f1;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .Header-container {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .headerLeft, .headerRight {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerLeft a, .sign-in-button {
+    margin: 5px 0;
+  }
 }
