@@ -41,7 +41,7 @@ function Popular() {
         
     
     <div className="Popular">
-      <h1>This is the popular page</h1>
+      <h1>Popular Movies</h1>
       <div className="movie-grid">
         {movies.map((movie) => (
           <div className="movie-item" key={movie.id}>
