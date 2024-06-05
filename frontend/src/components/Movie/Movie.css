@@ -1,0 +1,11 @@
+.Movie,
+.Movie td,
+.Movie th {
+  border-collapse: collapse;
+  border: 1px solid rgb(255, 0, 187);
+}
+
+.Movie td,
+.Movie th {
+  padding: 10px;
+}
