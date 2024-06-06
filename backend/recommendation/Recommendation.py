@@ -11,8 +11,13 @@ from sklearn.preprocessing import StandardScaler
 import ast
 import os
 
+# Get the current script directory
+script_dir = os.path.dirname(os.path.abspath(__file__))
+# Define the path to the SQLite database file
+db_path = os.path.join(script_dir, '../database.sqlite3')
 
-conn = sqlite3.connect('C:/Users/yassi/Desktop/EI/My/MovieScope/backend/database.sqlite3')
+# Connect to the SQLite database
+conn = sqlite3.connect(db_path)
 cur = conn.cursor()
 genres = {
     12: 'Adventure',
@@ -41,7 +46,6 @@ movies = [json.loads(row[0]) for row in cur.fetchall()]
 
 # Initialize the matrix
 num_movies = len(movies)
-
 
 def calculate_average_rating(id_user):
     # Get the list of movie IDs from the Movies table in the order they appear
@@ -144,12 +148,12 @@ def calculate_average_rating(id_user):
         id_user
     ])
     return user_vector
+
 def adj_mat():
     global num_movies
     # Get the movie data
     cur.execute('SELECT Genre FROM Movies')
     movies = [json.loads(row[0]) for row in cur.fetchall()]
-
 
     # Initialize the matrix
     num_movies = len(movies)
@@ -166,9 +170,8 @@ def adj_mat():
                 movie_train[i, genre_to_index[genre_id]] = 1
     movie_train = np.array(movie_train)
     # return the genre matrix
-    movie_train_normal= movie_train / (np.sum(movie_train, axis=1,keepdims=True)+10e-4)
+    movie_train_normal= movie_train / (np.sum(movie_train, axis=1, keepdims=True)+10e-4)
     return movie_train_normal
-
 
 def replicate_list(input_list, n):
     return [input_list] * n
@@ -176,7 +179,7 @@ def replicate_list(input_list, n):
 def get_traning_data(id_user):
     cur.execute(f'SELECT * FROM Users WHERE id={id_user}')
     user_data = cur.fetchone()
-    user_data = replicate_list(user_data[3:], num_movies)
+    user_data = replicate_list(user_data[1:], num_movies)
     user_train = np.array(user_data)
     return user_train
 
@@ -207,27 +210,23 @@ def NN_training(id_user):
         tf.keras.layers.Dense(64, activation='relu'),
         tf.keras.layers.Dense(32, activation='relu'),
         tf.keras.layers.Dense(19, activation='linear'),
-        
-        
     ])
 
     movie_NN = Sequential([
         tf.keras.layers.Dense(64, activation='relu'),
         tf.keras.layers.Dense(32, activation='relu'),
         tf.keras.layers.Dense(19, activation='linear'),
-        
-        
     ])
 
     # Create the user input and point to the base network
     input_user = tf.keras.layers.Input(shape=(num_user_features,))
     vu = user_NN(input_user)
-    vu = tf.linalg.l2_normalize(vu, axis=1)
+    vu = tf.keras.layers.Lambda(lambda x: tf.linalg.l2_normalize(x, axis=1))(vu)
 
     # Create the item input and point to the base network
     input_item = tf.keras.layers.Input(shape=(num_item_features,))
     vm = movie_NN(input_item)
-    vm = tf.linalg.l2_normalize(vm, axis=1)
+    vm = tf.keras.layers.Lambda(lambda x: tf.linalg.l2_normalize(x, axis=1))(vm)
 
     # Measure the similarity of the two vector outputs
     output = tf.keras.layers.Dot(axes=1)([vu, vm])
@@ -244,20 +243,20 @@ def NN_training(id_user):
     tf.random.set_seed(1)
     cost_fn = tf.keras.losses.MeanSquaredError()
     opt = tf.keras.optimizers.Adam(learning_rate=0.01)
-    model.compile(optimizer=opt,
-                loss=cost_fn)
+    model.compile(optimizer=opt, loss=cost_fn)
 
     # Display the model summary
     model.fit([user_train_n, movie_train_n], y_train_n, epochs=10, verbose=0)
     return model
-def get_top_n_indexes(arr, n):
-        # Get the indexes that would sort the array in decreasing order
-        sorted_indexes = np.argsort(arr)[::-1]
-        # Select the first n indexes
-        top_n_indexes = sorted_indexes[:n]
-        return top_n_indexes
 
-def recommend(id_user, n =50):
+def get_top_n_indexes(arr, n):
+    # Get the indexes that would sort the array in decreasing order
+    sorted_indexes = np.argsort(arr)[::-1]
+    # Select the first n indexes
+    top_n_indexes = sorted_indexes[:n]
+    return top_n_indexes
+
+def recommend(id_user, n=50):
     cur.execute('SELECT * FROM Movies')
     movies_list = cur.fetchall()
     # Predict scores for all movies
@@ -270,14 +269,11 @@ def recommend(id_user, n =50):
     y_predict = model.predict([user_train_n, movie_train_n])
     y_predict = np.squeeze(y_predict)
 
-    
-    
-
     cur.execute(f'SELECT id_movie FROM Rating WHERE id_user = {id_user}')
     id_movies_watched = cur.fetchall()
     id_movies_watched = [ids[0] for ids in id_movies_watched]
     
-    top_n_indexes =  get_top_n_indexes(y_predict, len(y_predict))
+    top_n_indexes = get_top_n_indexes(y_predict, len(y_predict))
     
     unwatched_movie_indexes = [i for i in top_n_indexes if movies_list[i][0] not in id_movies_watched][:n]
     recommendations = {
@@ -303,7 +299,14 @@ def recommend(id_user, n =50):
     with open(json_path, 'w') as json_file:
         json.dump(recommendations, json_file, indent=4)
         print(f"Recommendations have been written to {json_path}")
-recommend(2, 50)
+
+recommend(1, 100)
 conn.commit()
 conn.close()
 
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Too many or not enough parameters")
+    else:
+        recommend(sys.argv[1], sys.argv[2])
