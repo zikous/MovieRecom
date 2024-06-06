@@ -19,6 +19,9 @@ const Header = () => {
     navigate(`/search?q=${searchValue}`);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
   useEffect(() => {
     const fetchGenres = async () => {
       try {
@@ -42,9 +45,25 @@ const Header = () => {
 
     fetchGenres();
   }, []);
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!isDropdownOpen);
+  const tryMyLuck = async () => {
+    // Generate a random movie ID within a reasonable range
+    const randomMovieId = Math.floor(Math.random() * 10000) + 1; // Assuming movies IDs start from 1 and go up to 10000
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${randomMovieId}`,
+      {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
+      }
+    );
+    if (response.ok) {
+      navigate(`/movie/${randomMovieId}`);
+    } else {
+      alert("Sorry, you didn't have luck this time. Please try again.");
+    }
   };
 
   return (
@@ -112,13 +131,8 @@ const Header = () => {
             {isSearchOpen && <button type="submit">Search</button>}
           </form>
         </div>
-        <button
-          className="sign-in-button"
-          onClick={() => {
-            alert('Sign In clicked!');
-          }}
-        >
-          Sign In
+        <button className="sign-in-button" onClick={tryMyLuck}>
+          Try My Luck
         </button>
       </div>
     </div>
