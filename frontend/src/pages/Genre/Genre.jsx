@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Genre.css';
 import { useParams } from 'react-router-dom';
 
 function GenreList() {
-  const [genres, setGenres] = useState([]);
   const [movieGenre, setMovieGenre] = useState([]);
+  const [genres, setGenres] = useState([]);
   const { GenreId } = useParams();
   const loader = useRef(null);
   const options = {
@@ -15,15 +15,24 @@ function GenreList() {
         'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjNlNzg0ODkzMDUxMjRjYmQ3YjNiMmViZjMyZjNjNCIsInN1YiI6IjY0NzBhYjRhNzcwNzAwMDExOTI0OGZlYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-XX-u9jsBzlN_VSkOYDNyk11_AGkIqX1b3H1XK0_1YE',
     },
   };
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    getData();
     getGenres();
-    getData();
-  }, []);
+  }, [GenreId, currentPage]);
 
-  useEffect(() => {
-    getData();
-  }, [GenreId]);
+  const getData = () => {
+    fetch(
+      `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${currentPage}&with_genres=${GenreId}&without_genres=0`,
+      options
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        setMovieGenre((prevMovies) => [...prevMovies, ...response.results]);
+      })
+      .catch((err) => console.error(err));
+  };
 
   const getGenres = () => {
     fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', options)
@@ -32,34 +41,38 @@ function GenreList() {
       .catch((err) => console.error(err));
   };
 
-  const getData = () => {
-    const fetchedGenreList = [];
-    for (let i = 1; i <= 5; i++) {
-      fetch(
-        `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${i}&with_genres=${GenreId}&without_genres=0'`,
-        options
-      )
-        .then((response) => response.json())
-        .then((response) => {
-          fetchedGenreList.push(...response.results);
-          if (i === 5) {
-            setMovieGenre(fetchedGenreList);
-          }
-        })
-        .catch((err) => console.error(err));
+  const getGenreName = () => {
+    const genre = genres.find((genre) => genre.id === parseInt(GenreId));
+
+    return genre ? genre.name : '';
+  };
+
+  const handleObserver = (entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
-  const getGenreName = () => {
-    const genre = genres.find((genre) => genre.id === parseInt(GenreId));
-    return genre ? genre.name : '';
-  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: '20px',
+      threshold: 1.0,
+    });
+    if (loader.current) {
+      observer.observe(loader.current);
+    }
+
+    return () => observer.disconnect();
+  }, [handleObserver]);
 
   const truncateDescription = (description, wordLimit) => {
     const words = description.split(' ');
     if (words.length > wordLimit) {
       return words.slice(0, wordLimit).join(' ') + '...';
     }
+
     return description;
   };
 
