@@ -1,6 +1,6 @@
 // src/pages/MovieDetail/MovieDetail.jsx
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './MovieDetail.css';
 
@@ -8,6 +8,8 @@ const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [credits, setCredits] = useState(null);
+  const [videos, setVideos] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -19,8 +21,9 @@ const MovieDetail = () => {
         },
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
-        }
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
       };
 
       const creditsOptions = {
@@ -31,17 +34,51 @@ const MovieDetail = () => {
         },
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
-        }
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
+      };
+
+      const videosOptions = {
+        method: 'GET',
+        url: `https://api.themoviedb.org/3/movie/${id}/videos`,
+        params: {
+          language: 'en-US',
+        },
+        headers: {
+          accept: 'application/json',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
+      };
+
+      const similarMoviesOptions = {
+        method: 'GET',
+        url: `https://api.themoviedb.org/3/movie/${id}/similar`,
+        params: {
+          language: 'en-US',
+        },
+        headers: {
+          accept: 'application/json',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
       };
 
       try {
-        const [movieResponse, creditsResponse] = await Promise.all([
+        const [movieResponse, creditsResponse, videosResponse, similarMoviesResponse] = await Promise.all([
           axios.request(movieOptions),
-          axios.request(creditsOptions)
+          axios.request(creditsOptions),
+          axios.request(videosOptions),
+          axios.request(similarMoviesOptions),
         ]);
         setMovie(movieResponse.data);
         setCredits(creditsResponse.data);
+        setVideos(videosResponse.data.results);
+        const filteredSimilarMovies = similarMoviesResponse.data.results.filter(
+          (similarMovie) => similarMovie.poster_path
+        );
+        setSimilarMovies(filteredSimilarMovies);
       } catch (error) {
         console.error('Error fetching movie details:', error);
       }
@@ -56,22 +93,62 @@ const MovieDetail = () => {
 
   const director = credits.crew.find((member) => member.job === 'Director');
   const cast = credits.cast.slice(0, 5); // Get the first 5 actors
+  const trailer = videos.find((video) => video.type === 'Trailer' && video.site === 'YouTube');
 
   return (
-    <div
-      className="movie-detail"
-      style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.backdrop_path})` }}
-    >
+    <div className="movie-detail">
       <div className="movie-detail-content">
-        <div className="movie-poster">
-          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+        {trailer && (
+          <div className="movie-trailer">
+            <iframe
+              width="100%"
+              height="400px"
+              src={`https://www.youtube.com/embed/${trailer.key}`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Trailer"
+            ></iframe>
+          </div>
+        )}
+        <div className="movie-info-container">
+          <div className="movie-poster">
+            <img
+              src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+              alt={movie.title}
+            />
+          </div>
+          <div className="movie-info">
+            <h1>{movie.title}</h1>
+            <p>{movie.overview}</p>
+            <div className="movie-details">
+              <div>
+                <p><strong>Release Date:</strong> {movie.release_date}</p>
+                <p><strong>Duration:</strong> {movie.runtime} minutes</p>
+                <p><strong>Genre:</strong> {movie.genres.map((genre) => genre.name).join(', ')}</p>
+                <p><strong>Cast:</strong> {cast.map((actor) => actor.name).join(', ')}</p>
+              </div>
+              <div>
+                {director && <p><strong>Director:</strong> {director.name}</p>}
+                <p><strong>Country:</strong> {movie.production_countries.map((country) => country.name).join(', ')}</p>
+                <p><strong>Production:</strong> {movie.production_companies.map((company) => company.name).join(', ')}</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="movie-info">
-          <h1>{movie.title}</h1>
-          <p>{movie.overview}</p>
-          <p><strong>Release Date:</strong> {movie.release_date}</p>
-          {director && <p><strong>Director:</strong> {director.name}</p>}
-          <p><strong>Cast:</strong> {cast.map((actor) => actor.name).join(', ')}</p>
+      </div>
+      <div className="similar-movies">
+        <h2>Similar Movies</h2>
+        <div className="similar-movie-grid">
+          {similarMovies.map((similarMovie) => (
+            <Link to={`/movie/${similarMovie.id}`} key={similarMovie.id} className="similar-movie-item">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${similarMovie.poster_path}`}
+                alt={similarMovie.title}
+              />
+              <h3>{similarMovie.title}</h3>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
