@@ -21,8 +21,9 @@ const MovieDetail = () => {
         params: { language: 'en-US' },
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer YOUR_API_KEY_HERE'
-        }
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
       };
 
       const creditsOptions = {
@@ -31,8 +32,9 @@ const MovieDetail = () => {
         params: { language: 'en-US' },
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer YOUR_API_KEY_HERE'
-        }
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
       };
 
       const videosOptions = {
@@ -41,8 +43,9 @@ const MovieDetail = () => {
         params: { language: 'en-US' },
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer YOUR_API_KEY_HERE'
-        }
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
       };
 
       const similarMoviesOptions = {
@@ -51,16 +54,22 @@ const MovieDetail = () => {
         params: { language: 'en-US' },
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer YOUR_API_KEY_HERE'
-        }
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        },
       };
 
       try {
-        const [movieResponse, creditsResponse, videosResponse, similarMoviesResponse] = await Promise.all([
+        const [
+          movieResponse,
+          creditsResponse,
+          videosResponse,
+          similarMoviesResponse,
+        ] = await Promise.all([
           axios.request(movieOptions),
           axios.request(creditsOptions),
           axios.request(videosOptions),
-          axios.request(similarMoviesOptions)
+          axios.request(similarMoviesOptions),
         ]);
         setMovie(movieResponse.data);
         setCredits(creditsResponse.data);
@@ -83,7 +92,9 @@ const MovieDetail = () => {
 
   const director = credits.crew.find((member) => member.job === 'Director');
   const cast = credits.cast.slice(0, 5); // Get the first 5 actors
-  const trailer = videos.find((video) => video.type === 'Trailer' && video.site === 'YouTube');
+  const trailer = videos.find(
+    (video) => video.type === 'Trailer' && video.site === 'YouTube'
+  );
 
   const changeRating = (newRating) => {
     setRating(newRating);
@@ -131,15 +142,39 @@ const MovieDetail = () => {
             <p>{movie.overview}</p>
             <div className="movie-details">
               <div>
-                <p><strong>Release Date:</strong> {movie.release_date}</p>
-                <p><strong>Duration:</strong> {movie.runtime} minutes</p>
-                <p><strong>Genre:</strong> {movie.genres.map((genre) => genre.name).join(', ')}</p>
-                <p><strong>Cast:</strong> {cast.map((actor) => actor.name).join(', ')}</p>
+                <p>
+                  <strong>Release Date:</strong> {movie.release_date}
+                </p>
+                <p>
+                  <strong>Duration:</strong> {movie.runtime} minutes
+                </p>
+                <p>
+                  <strong>Genre:</strong>{' '}
+                  {movie.genres.map((genre) => genre.name).join(', ')}
+                </p>
+                <p>
+                  <strong>Cast:</strong>{' '}
+                  {cast.map((actor) => actor.name).join(', ')}
+                </p>
               </div>
               <div>
-                {director && <p><strong>Director:</strong> {director.name}</p>}
-                <p><strong>Country:</strong> {movie.production_countries.map((country) => country.name).join(', ')}</p>
-                <p><strong>Production:</strong> {movie.production_companies.map((company) => company.name).join(', ')}</p>
+                {director && (
+                  <p>
+                    <strong>Director:</strong> {director.name}
+                  </p>
+                )}
+                <p>
+                  <strong>Country:</strong>{' '}
+                  {movie.production_countries
+                    .map((country) => country.name)
+                    .join(', ')}
+                </p>
+                <p>
+                  <strong>Production:</strong>{' '}
+                  {movie.production_companies
+                    .map((company) => company.name)
+                    .join(', ')}
+                </p>
               </div>
             </div>
           </div>
@@ -149,7 +184,11 @@ const MovieDetail = () => {
         <h2>Similar Movies</h2>
         <div className="similar-movie-grid">
           {similarMovies.map((similarMovie) => (
-            <Link to={`/movie/${similarMovie.id}`} key={similarMovie.id} className="similar-movie-item">
+            <Link
+              to={`/movie/${similarMovie.id}`}
+              key={similarMovie.id}
+              className="similar-movie-item"
+            >
               <img
                 src={`https://image.tmdb.org/t/p/w500${similarMovie.poster_path}`}
                 alt={similarMovie.title}
@@ -164,4 +203,3 @@ const MovieDetail = () => {
 };
 
 export default MovieDetail;
-
