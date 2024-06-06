@@ -133,7 +133,6 @@
   background-color: #61dafb;
 }
 
-/* Styling for the search bar */
 .search-bar {
   display: flex;
   align-items: center;
@@ -141,13 +140,18 @@
   border-radius: 4px;
   padding: 5px 10px;
   margin-right: 20px;
-  width: 150px;
-  transition: width 0.3s ease;
+  width: 40px; /* Set initial width */
+  transition: width 0.3s ease; /* Add transition effect */
   overflow: hidden;
 }
 
 .search-bar.open {
-  width: 300px;
+  width: 200px; /* Set expanded width */
+}
+
+.search-bar form {
+  display: flex; /* Utiliser une disposition flex pour aligner les éléments */
+  align-items: center; /* Centrer verticalement les éléments */
 }
 
 .search-bar input {
@@ -172,6 +176,8 @@
 .search-bar button:hover {
   color: #21a1f1;
 }
+
+
 
 /* Styling for the sign-in button */
 .sign-in-button {

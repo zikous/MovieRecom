@@ -15,6 +15,7 @@ const Header = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log('Search submitted with query:', searchValue);
     navigate(`/search?q=${searchValue}`);
   };
 
@@ -68,13 +69,11 @@ const Header = () => {
                 to={`/genre/${genre.id}`}
                 style={{ textDecoration: 'none' }}
               >
-                <i className={`fas fa-${genre.name.toLowerCase()}`}></i>{' '}
                 {genre.name}
               </Link>
             ))}
           </div>
         </div>
-
         <Link to="/popular">
           <span>Popular</span>
         </Link>
@@ -93,6 +92,7 @@ const Header = () => {
           className={`search-bar ${isSearchOpen ? 'open' : ''}`}
           onMouseEnter={() => setSearchOpen(true)}
           onMouseLeave={() => setSearchOpen(false)}
+          style={{ width: isSearchOpen ? '250px' : '80px' }}
         >
           <form onSubmit={handleSubmit}>
             <input
@@ -100,9 +100,17 @@ const Header = () => {
               placeholder="Search..."
               value={searchValue}
               onChange={handleSearchChange}
+              style={{
+                width: '100%',
+                border: 'none',
+                outline: 'none',
+                padding: '5px',
+                fontSize: '16px',
+                fontFamily: 'Roboto, sans-serif',
+              }}
             />
+            {isSearchOpen && <button type="submit">Search</button>}
           </form>
-          <button type="submit">Search</button>
         </div>
         <button
           className="sign-in-button"
