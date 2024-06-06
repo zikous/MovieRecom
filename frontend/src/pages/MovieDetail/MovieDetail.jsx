@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import StarRatings from 'react-star-ratings';
 import './MovieDetail.css';
 
 const MovieDetail = () => {
@@ -10,59 +11,48 @@ const MovieDetail = () => {
   const [credits, setCredits] = useState(null);
   const [videos, setVideos] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     const fetchMovie = async () => {
       const movieOptions = {
         method: 'GET',
         url: `https://api.themoviedb.org/3/movie/${id}`,
-        params: {
-          language: 'en-US',
-        },
+        params: { language: 'en-US' },
         headers: {
           accept: 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
-        },
+          Authorization: 'Bearer YOUR_API_KEY_HERE'
+        }
       };
 
       const creditsOptions = {
         method: 'GET',
         url: `https://api.themoviedb.org/3/movie/${id}/credits`,
-        params: {
-          language: 'en-US',
-        },
+        params: { language: 'en-US' },
         headers: {
           accept: 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
-        },
+          Authorization: 'Bearer YOUR_API_KEY_HERE'
+        }
       };
 
       const videosOptions = {
         method: 'GET',
         url: `https://api.themoviedb.org/3/movie/${id}/videos`,
-        params: {
-          language: 'en-US',
-        },
+        params: { language: 'en-US' },
         headers: {
           accept: 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
-        },
+          Authorization: 'Bearer YOUR_API_KEY_HERE'
+        }
       };
 
       const similarMoviesOptions = {
         method: 'GET',
         url: `https://api.themoviedb.org/3/movie/${id}/similar`,
-        params: {
-          language: 'en-US',
-        },
+        params: { language: 'en-US' },
         headers: {
           accept: 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
-        },
+          Authorization: 'Bearer YOUR_API_KEY_HERE'
+        }
       };
 
       try {
@@ -70,7 +60,7 @@ const MovieDetail = () => {
           axios.request(movieOptions),
           axios.request(creditsOptions),
           axios.request(videosOptions),
-          axios.request(similarMoviesOptions),
+          axios.request(similarMoviesOptions)
         ]);
         setMovie(movieResponse.data);
         setCredits(creditsResponse.data);
@@ -95,6 +85,12 @@ const MovieDetail = () => {
   const cast = credits.cast.slice(0, 5); // Get the first 5 actors
   const trailer = videos.find((video) => video.type === 'Trailer' && video.site === 'YouTube');
 
+  const changeRating = (newRating) => {
+    setRating(newRating);
+    // Here, you will handle saving the rating to the backend later
+    console.log(`New rating is: ${newRating}`);
+  };
+
   return (
     <div className="movie-detail">
       <div className="movie-detail-content">
@@ -117,6 +113,18 @@ const MovieDetail = () => {
               src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
               alt={movie.title}
             />
+            <div className="movie-rating">
+              <h3>Rate this movie:</h3>
+              <StarRatings
+                rating={rating}
+                starRatedColor="gold"
+                changeRating={changeRating}
+                numberOfStars={5}
+                name="rating"
+                starDimension="25px"
+                starSpacing="2px"
+              />
+            </div>
           </div>
           <div className="movie-info">
             <h1>{movie.title}</h1>
@@ -156,3 +164,4 @@ const MovieDetail = () => {
 };
 
 export default MovieDetail;
+
