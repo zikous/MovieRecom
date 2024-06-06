@@ -1,7 +1,8 @@
-// src/pages/Popular/Popular.jsx
+// src/pages/TopRated/TopRated.jsx
 import './TopRated.css';
 import axios from 'axios';
 import { useEffect, useState, useRef, useCallback } from 'react';
+import MovieItem from '../../components/MovieItem/MovieItem'; // Added this line
 
 function TopRated() {
   const [movies, setMovies] = useState([]);
@@ -54,31 +55,12 @@ function TopRated() {
     return () => observer.disconnect();
   }, [handleObserver]);
 
-  const truncateDescription = (description, wordLimit) => {
-    const words = description.split(' ');
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(' ') + '...';
-    }
-    return description;
-  };
-
   return (
     <div className="TopRated">
-      <h1>TopRated Movies</h1>
+      <h1>Top Rated Movies</h1>
       <div className="movie-grid">
         {movies.map((movie) => (
-          <div className="movie-item" key={movie.id}>
-            <div className="movie-poster">
-              <img 
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
-                alt={movie.title}
-              />
-              <div className="movie-description">
-                <h2>{movie.title}</h2>
-                <p>{truncateDescription(movie.overview, 60)}</p>
-              </div>
-            </div>
-          </div>
+          <MovieItem key={movie.id} movie={movie} />  // Changed this line
         ))}
       </div>
       <div ref={loader} className="loader">

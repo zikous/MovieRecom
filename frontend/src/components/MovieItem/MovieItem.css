@@ -1,0 +1,16 @@
+/* src/pages/MovieDetail/MovieDetail.css */
+.movie-detail {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .movie-detail img {
+    width: 300px;
+    border-radius: 8px;
+  }
+  
+  .movie-detail p {
+    font-size: 1.2em;
+    margin-top: 20px;
+  }
+  

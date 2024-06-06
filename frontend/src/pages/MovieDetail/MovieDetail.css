@@ -1,0 +1,40 @@
+/* src/pages/MovieDetail/MovieDetail.css */
+.movie-detail {
+  background-size: cover;
+  background-position: center;
+  padding: 50px 0;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.movie-detail-content {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  max-width: 1000px;
+  width: 90%;
+}
+
+.movie-poster img {
+  width: 300px;
+  border-radius: 8px;
+}
+
+.movie-info {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.movie-info h1 {
+  margin-bottom: 20px;
+}
+
+.movie-info p {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}

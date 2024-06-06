@@ -1,6 +1,8 @@
+// src/components/SearchResults/SearchResults.jsx
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import MovieItem from '../MovieItem/MovieItem';
 import './SearchResults.css';
 
 const SearchResults = () => {
@@ -10,19 +12,8 @@ const SearchResults = () => {
   const loader = useRef(null); // Define the loader ref
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0); // Ensure setTotalPages is defined
-  const [noResults, setNoResults] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // Change initial state to false
-
-  const truncateDescription = (description, wordLimit) => {
-    const words = description.split(' ');
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(' ') + '...';
-    }
-    return description;
-  };
 
   const fetchMovies = (page) => {
-    setIsLoading(true); // Set isLoading to true when data fetching starts
     if (searchQuery) {
       const options = {
         method: 'GET',
@@ -37,31 +28,21 @@ const SearchResults = () => {
           accept: 'application/json',
           Authorization:
             'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
-        },
+        }
       };
 
       axios
         .request(options)
         .then(function (response) {
-          setIsLoading(false); // Set isLoading to false when data fetching is complete
           if (page === 1) {
             setSearchResults(response.data.results);
-            if (response.data.results.length === 0) {
-              setNoResults(true);
-            } else {
-              setNoResults(false);
-            }
           } else {
-            setSearchResults((prevMovies) => [
-              ...prevMovies,
-              ...response.data.results,
-            ]);
+            setSearchResults(prevMovies => [...prevMovies, ...response.data.results]);
           }
           setTotalPages(response.data.total_pages);
         })
         .catch(function (error) {
           console.error(error);
-          setIsLoading(false); // Set isLoading to false if an error occurs during fetching
         });
     }
   };
@@ -70,7 +51,6 @@ const SearchResults = () => {
     if (searchQuery) {
       setCurrentPage(1);
       setSearchResults([]);
-      setNoResults(false);
       fetchMovies(1);
     }
   }, [searchQuery]);
@@ -91,8 +71,8 @@ const SearchResults = () => {
   useEffect(() => {
     const option = {
       root: null,
-      rootMargin: '20px',
-      threshold: 1.0,
+      rootMargin: "20px",
+      threshold: 1.0
     };
     const observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) observer.observe(loader.current);
@@ -103,25 +83,11 @@ const SearchResults = () => {
   return (
     <div className="movie__list">
       <h2>Search Results for : "{searchQuery}"</h2>
-      {!searchResults.length && !isLoading ? null : (
-        <div className="movie-grid">
-          {searchResults.map((movie) => (
-            <div className="movie-item" key={movie.id}>
-              <div className="movie-poster">
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                />
-                <div className="movie-description">
-                  <h2>{movie.title}</h2>
-                  <p>{truncateDescription(movie.overview, 60)}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-      {noResults && <p>No results found for this search.</p>}
+      <div className="movie-grid">
+        {searchResults.map((movie) => (
+          <MovieItem key={movie.id} movie={movie} />
+        ))}
+      </div>
       <div ref={loader} className="loader">
         <h2>Loading...</h2>
       </div>

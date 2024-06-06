@@ -10,6 +10,7 @@ import TopRated from './pages/Top Rated/TopRated';
 import Upcoming from './pages/Upcoming/Upcoming';
 import SearchResults from './components/SearchResults/SearchResults';
 import GenreList from './pages/Genre/Genre';
+import MovieDetail from './pages/MovieDetail/MovieDetail';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="upcoming" element={<Upcoming />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/genre/:GenreId" element={<GenreList />} />
+        <Route path="/movie/:id" element={<MovieDetail />} /> 
       </Routes>
     </Layout>
   );

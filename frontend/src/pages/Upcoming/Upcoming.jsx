@@ -2,6 +2,7 @@
 import './Upcoming.css';
 import axios from 'axios';
 import { useEffect, useState, useRef, useCallback } from 'react';
+import MovieItem from '../../components/MovieItem/MovieItem'; 
 
 function Upcoming() {
   const [movies, setMovies] = useState([]);
@@ -67,19 +68,8 @@ function Upcoming() {
     <div className="Upcoming">
       <h1>Upcoming Movies</h1>
       <div className="movie-grid">
-        {movies.map((movie) => (
-          <div className="movie-item" key={movie.id}>
-            <div className="movie-poster">
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-              />
-              <div className="movie-description">
-                <h2>{movie.title}</h2>
-                <p>{truncateDescription(movie.overview, 60)}</p>
-              </div>
-            </div>
-          </div>
+      {movies.map((movie) => (
+          <MovieItem key={movie.id} movie={movie} />  
         ))}
       </div>
       <div ref={loader} className="loader">
