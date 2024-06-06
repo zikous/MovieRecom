@@ -28,16 +28,22 @@ const SearchResults = () => {
           accept: 'application/json',
           Authorization:
             'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
-        }
+        },
       };
 
       axios
         .request(options)
         .then(function (response) {
+          const filteredResults = response.data.results.filter(
+            (movie) => movie.poster_path
+          );
           if (page === 1) {
-            setSearchResults(response.data.results);
+            setSearchResults(filteredResults);
           } else {
-            setSearchResults(prevMovies => [...prevMovies, ...response.data.results]);
+            setSearchResults((prevMovies) => [
+              ...prevMovies,
+              ...filteredResults,
+            ]);
           }
           setTotalPages(response.data.total_pages);
         })
@@ -71,8 +77,8 @@ const SearchResults = () => {
   useEffect(() => {
     const option = {
       root: null,
-      rootMargin: "20px",
-      threshold: 1.0
+      rootMargin: '20px',
+      threshold: 1.0,
     };
     const observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) observer.observe(loader.current);
