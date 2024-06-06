@@ -61,7 +61,7 @@ function Popular() {
       <h1>Popular Movies</h1>
       <div className="movie-grid">
         {movies.map((movie) => (
-          <MovieItem key={movie.id} movie={movie} /> 
+          <MovieItem key={movie.id} movie={movie} />
         ))}
       </div>
       <div ref={loader} className="loader">
