@@ -1,78 +1,94 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './Genre.css';
+import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 function GenreList() {
-  const [movieGenre, setMovieGenre] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [movieGenre, setMovieGenre] = useState([]);
   const { GenreId } = useParams();
-  const loader = useRef(null);
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjNlNzg0ODkzMDUxMjRjYmQ3YjNiMmViZjMyZjNjNCIsInN1YiI6IjY0NzBhYjRhNzcwNzAwMDExOTI0OGZlYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-XX-u9jsBzlN_VSkOYDNyk11_AGkIqX1b3H1XK0_1YE',
-    },
-  };
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const loader = useRef(null);
 
   useEffect(() => {
-    getData();
     getGenres();
-  }, [GenreId, currentPage]);
+    setCurrentPage(1); // Reset currentPage when GenreId changes
+  }, [GenreId]);
 
-  const getData = () => {
-    fetch(
-      `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${currentPage}&with_genres=${GenreId}&without_genres=0`,
-      options
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        setMovieGenre((prevMovies) => [...prevMovies, ...response.results]);
-      })
-      .catch((err) => console.error(err));
-  };
+  useEffect(() => {
+    getData(currentPage);
+  }, [currentPage, GenreId]); // Fetch data when currentPage or GenreId changes
 
   const getGenres = () => {
-    fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', options)
-      .then((response) => response.json())
-      .then((response) => setGenres(response.genres))
-      .catch((err) => console.error(err));
+    axios
+      .get('https://api.themoviedb.org/3/genre/movie/list?language=en', {
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer YOUR_API_KEY',
+        },
+      })
+      .then((response) => setGenres(response.data.genres))
+      .catch((error) => console.error(error));
   };
 
-  const getGenreName = () => {
-    const genre = genres.find((genre) => genre.id === parseInt(GenreId));
-
-    return genre ? genre.name : '';
+  const getData = (page) => {
+    axios
+      .get(
+        `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${page}&with_genres=${GenreId}&without_genres=0`,
+        {
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer YOUR_API_KEY',
+          },
+        }
+      )
+      .then((response) => {
+        if (page === 1) {
+          setMovieGenre(response.data.results); // Reset movieGenre on first page
+        } else {
+          setMovieGenre((prevMovies) => [
+            ...prevMovies,
+            ...response.data.results,
+          ]); // Append to existing movieGenre
+        }
+        setTotalPages(response.data.total_pages);
+      })
+      .catch((error) => console.error(error));
   };
 
-  const handleObserver = (entries) => {
-    const target = entries[0];
-    if (target.isIntersecting) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  };
+  const handleObserver = useCallback(
+    (entries) => {
+      const target = entries[0];
+      if (target.isIntersecting && currentPage < totalPages) {
+        setCurrentPage((prevPage) => prevPage + 1);
+      }
+    },
+    [currentPage, totalPages]
+  );
 
   useEffect(() => {
-    const observer = new IntersectionObserver(handleObserver, {
+    const option = {
       root: null,
       rootMargin: '20px',
       threshold: 1.0,
-    });
-    if (loader.current) {
-      observer.observe(loader.current);
-    }
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (loader.current) observer.observe(loader.current);
 
     return () => observer.disconnect();
   }, [handleObserver]);
+
+  const getGenreName = () => {
+    const genre = genres.find((genre) => genre.id === parseInt(GenreId));
+    return genre ? genre.name : '';
+  };
 
   const truncateDescription = (description, wordLimit) => {
     const words = description.split(' ');
     if (words.length > wordLimit) {
       return words.slice(0, wordLimit).join(' ') + '...';
     }
-
     return description;
   };
 
