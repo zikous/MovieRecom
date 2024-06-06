@@ -5,6 +5,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './Home.css';
 import { initializeScrolling } from './appScroll'; // Import the scrolling function
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const Home = () => {
   const [popularMovies, setPopularMovies] = useState([]);
@@ -211,38 +212,31 @@ const Home = () => {
           transitionTime={500} // Adjust the transition time for sliding effect
           dynamicHeight={false} // Ensure consistent slide heights
         >
-          {popularMovies
-            .sort(() => Math.random() - 0.5)
-            .slice(0, 10)
-            .map((movie) => (
-              <Link
-                key={movie.id}
-                style={{ textDecoration: 'none', color: 'white' }}
-                to={`/movie/${movie.id}`}
-              >
-                <div className="posterImage">
-                  <img
-                    src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-                    alt={movie.original_title}
-                  />
+          {popularMovies.slice(0, 10).map((movie) => (
+            <Link
+              key={movie.id}
+              style={{ textDecoration: 'none', color: 'white' }}
+              to={`/movie/${movie.id}`}
+            >
+              <div className="posterImage">
+                <img
+                  src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                  alt={movie.original_title}
+                />
+              </div>
+              <div className="posterImage__overlay">
+                <div className="posterImage__title">{movie.original_title}</div>
+                <div className="posterImage__runtime">{movie.release_date}</div>
+                <div className="posterImage__rating">
+                  {movie.vote_average}
+                  <i className="fas fa-star" />
                 </div>
-                <div className="posterImage__overlay">
-                  <div className="posterImage__title">
-                    {movie.original_title}
-                  </div>
-                  <div className="posterImage__runtime">
-                    {movie.release_date}
-                  </div>
-                  <div className="posterImage__rating">
-                    {movie.vote_average}
-                    <i className="fas fa-star" />
-                  </div>
-                  <div className="posterImage__description">
-                    {truncateDescription(movie.overview, 15)}
-                  </div>
+                <div className="posterImage__description">
+                  {truncateDescription(movie.overview, 15)}
                 </div>
-              </Link>
-            ))}
+              </div>
+            </Link>
+          ))}
         </Carousel>
       </div>
 
