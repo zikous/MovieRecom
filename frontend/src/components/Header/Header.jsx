@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState('');
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [genres, setGenres] = useState([]);
+
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate(`/search?q=${searchValue}`);
+  };
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -83,7 +94,14 @@ const Header = () => {
           onMouseEnter={() => setSearchOpen(true)}
           onMouseLeave={() => setSearchOpen(false)}
         >
-          <input type="text" placeholder="Search..." />
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={handleSearchChange}
+            />
+          </form>
           <button type="submit">Search</button>
         </div>
         <button
