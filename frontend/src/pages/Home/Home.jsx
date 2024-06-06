@@ -18,43 +18,30 @@ const Home = () => {
   const topRatedLoader = useRef(null);
 
   // Added Today
-  const popularContainerRef = useRef(null); 
-  const upcomingContainerRef = useRef(null); 
+  const popularContainerRef = useRef(null);
+  const upcomingContainerRef = useRef(null);
   const topRatedContainerRef = useRef(null);
 
   useEffect(() => {
-   
     if (popularContainerRef.current) {
-      const cleanup = initializeScrolling(popularContainerRef.current, 1, 50); 
-      return cleanup; 
+      const cleanup = initializeScrolling(popularContainerRef.current, 1, 50);
+      return cleanup;
     }
   }, [popularContainerRef]);
 
   useEffect(() => {
-    
     if (upcomingContainerRef.current) {
-      const cleanup = initializeScrolling(upcomingContainerRef.current, 1, 50); 
-      return cleanup; 
+      const cleanup = initializeScrolling(upcomingContainerRef.current, 1, 50);
+      return cleanup;
     }
   }, [upcomingContainerRef]);
 
   useEffect(() => {
-   
     if (topRatedContainerRef.current) {
       const cleanup = initializeScrolling(topRatedContainerRef.current, 1, 50);
-      return cleanup; 
+      return cleanup;
     }
   }, [topRatedContainerRef]);
-
-
-
-
-
-
-
-
-
-
 
   const fetchPopularMovies = (page) => {
     const options = {
@@ -219,40 +206,46 @@ const Home = () => {
         <Carousel
           showThumbs={false}
           autoPlay={true}
-          transitionTime={3}
+          interval={5000} // Adjust the interval between slides if needed
           infiniteLoop={true}
-          showStatus={false}
+          transitionTime={500} // Adjust the transition time for sliding effect
+          dynamicHeight={false} // Ensure consistent slide heights
         >
-          {popularMovies.slice(0, 10).map((movie) => (
-            <Link
-              key={movie.id}
-              style={{ textDecoration: 'none', color: 'white' }}
-              to={`/movie/${movie.id}`}
-            >
-              <div className="posterImage">
-                <img
-                  src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-                  alt={movie.original_title}
-                />
-              </div>
-              <div className="posterImage__overlay">
-                <div className="posterImage__title">{movie.original_title}</div>
-                <div className="posterImage__runtime">
-                  {movie.release_date}
-                  <span className="posterImage__rating">
+          {popularMovies
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 10)
+            .map((movie) => (
+              <Link
+                key={movie.id}
+                style={{ textDecoration: 'none', color: 'white' }}
+                to={`/movie/${movie.id}`}
+              >
+                <div className="posterImage">
+                  <img
+                    src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                    alt={movie.original_title}
+                  />
+                </div>
+                <div className="posterImage__overlay">
+                  <div className="posterImage__title">
+                    {movie.original_title}
+                  </div>
+                  <div className="posterImage__runtime">
+                    {movie.release_date}
+                  </div>
+                  <div className="posterImage__rating">
                     {movie.vote_average}
                     <i className="fas fa-star" />
-                  </span>
+                  </div>
+                  <div className="posterImage__description">
+                    {truncateDescription(movie.overview, 15)}
+                  </div>
                 </div>
-                <div className="posterImage__description">
-                  {truncateDescription(movie.overview, 15)}{' '}
-                  {/* Truncate to 15 words */}
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
         </Carousel>
       </div>
+
       <div className="popular-movies">
         <h2>Popular Movies</h2>
         <div className="movies-container" ref={popularContainerRef}>
