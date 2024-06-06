@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './Genre.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import MovieItem from '../../components/MovieItem/MovieItem';
 
 function GenreList() {
   const [genres, setGenres] = useState([]);
@@ -84,31 +85,12 @@ function GenreList() {
     return genre ? genre.name : '';
   };
 
-  const truncateDescription = (description, wordLimit) => {
-    const words = description.split(' ');
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(' ') + '...';
-    }
-    return description;
-  };
-
   return (
     <div className="Popular">
       <h1>{getGenreName()} Movies</h1>
       <div className="movie-grid">
         {movieGenre.map((movie) => (
-          <div className="movie-item" key={movie.id}>
-            <div className="movie-poster">
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-              />
-              <div className="movie-description">
-                <h2>{movie.title}</h2>
-                <p>{truncateDescription(movie.overview, 60)}</p>
-              </div>
-            </div>
-          </div>
+          <MovieItem key={movie.id} movie={movie} /> 
         ))}
       </div>
       <div ref={loader} className="loader">
