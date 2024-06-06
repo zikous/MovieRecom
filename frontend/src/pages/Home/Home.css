@@ -13,13 +13,12 @@ body {
 .poster {
   position: relative;
   margin: auto;
-  max-width: 1200px;
-  padding: 20px;
+  width: 100%;
 }
 
 /* Carousel */
 .carousel {
-  width: 200%;
+  width: 100%;
   position: relative;
   overflow: hidden;
 }
@@ -195,6 +194,26 @@ body {
 .loader {
   text-align: center;
   margin-top: 20px;
+}
+
+.popular-movies{
+  padding-left: 20px;
+}
+
+.upcoming-movies{
+  padding-left: 20px;
+}
+
+ul.slider.animated {
+  height: 650px;
+}
+
+.posterImage__overlay {
+  height: 177px;
+}
+
+.top-rated-movies{
+  padding-left: 20px;
 }
 
 .top-popular-movies {

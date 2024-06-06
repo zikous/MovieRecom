@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './Home.css';
+import { initializeScrolling } from './appScroll'; // Import the scrolling function
 
 const Home = () => {
   const [popularMovies, setPopularMovies] = useState([]);
@@ -16,6 +17,45 @@ const Home = () => {
   const upcomingLoader = useRef(null);
   const topRatedLoader = useRef(null);
 
+  // Added Today
+  const popularContainerRef = useRef(null); 
+  const upcomingContainerRef = useRef(null); 
+  const topRatedContainerRef = useRef(null);
+
+  useEffect(() => {
+   
+    if (popularContainerRef.current) {
+      const cleanup = initializeScrolling(popularContainerRef.current, 1, 50); 
+      return cleanup; 
+    }
+  }, [popularContainerRef]);
+
+  useEffect(() => {
+    
+    if (upcomingContainerRef.current) {
+      const cleanup = initializeScrolling(upcomingContainerRef.current, 1, 50); 
+      return cleanup; 
+    }
+  }, [upcomingContainerRef]);
+
+  useEffect(() => {
+   
+    if (topRatedContainerRef.current) {
+      const cleanup = initializeScrolling(topRatedContainerRef.current, 1, 50);
+      return cleanup; 
+    }
+  }, [topRatedContainerRef]);
+
+
+
+
+
+
+
+
+
+
+
   const fetchPopularMovies = (page) => {
     const options = {
       method: 'GET',
@@ -23,7 +63,8 @@ const Home = () => {
       params: { language: 'en-US', page: page },
       headers: {
         accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
       },
     };
 
@@ -47,7 +88,8 @@ const Home = () => {
       params: { language: 'en-US', page: page },
       headers: {
         accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
       },
     };
 
@@ -71,7 +113,8 @@ const Home = () => {
       params: { language: 'en-US', page: page },
       headers: {
         accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
       },
     };
 
@@ -212,7 +255,7 @@ const Home = () => {
       </div>
       <div className="popular-movies">
         <h2>Popular Movies</h2>
-        <div className="movies-container">
+        <div className="movies-container" ref={popularContainerRef}>
           {/* Popular movies rendering */}
           {popularMovies.map((movie) => (
             <div key={movie.id} className="movie-item">
@@ -235,7 +278,7 @@ const Home = () => {
       </div>
       <div className="upcoming-movies">
         <h2>Upcoming Movies</h2>
-        <div className="movies-container">
+        <div className="movies-container" ref={upcomingContainerRef}>
           {/* Upcoming movies rendering */}
           {upcomingMovies.map((movie) => (
             <div key={movie.id} className="movie-item">
@@ -258,7 +301,7 @@ const Home = () => {
       </div>
       <div className="top-rated-movies">
         <h2>Top Rated Movies</h2>
-        <div className="movies-container">
+        <div className="movies-container" ref={topRatedContainerRef}>
           {topRatedMovies.map((movie) => (
             <div key={movie.id} className="movie-item">
               <Link to={`/movie/${movie.id}`}>

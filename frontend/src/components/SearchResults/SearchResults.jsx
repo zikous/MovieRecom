@@ -53,6 +53,19 @@ const SearchResults = () => {
     }
   };
 
+
+  /// Added recently 
+  const [testSearch, setTextSearch] = useState('Loading...');
+
+  
+  const timeSearch = () => {
+
+    setTimeout(() => {
+      setTextSearch("No result found!")
+    }, 5000);
+  
+  } 
+
   useEffect(() => {
     if (searchQuery) {
       setCurrentPage(1);
@@ -95,7 +108,7 @@ const SearchResults = () => {
         ))}
       </div>
       <div ref={loader} className="loader">
-        <h2>Loading...</h2>
+       <h2> {testSearch} </h2>
       </div>
     </div>
   );
