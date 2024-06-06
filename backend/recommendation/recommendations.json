@@ -1,0 +1,475 @@
+{
+    "page": 1,
+    "results": [
+        {
+            "id": 975773,
+            "rank": 1,
+            "genre_ids": [
+                35,
+                18,
+                9648
+            ],
+            "title": "Wicked Little Letters"
+        },
+        {
+            "id": 171274,
+            "rank": 2,
+            "genre_ids": [
+                18,
+                9648,
+                35
+            ],
+            "title": "Inherent Vice"
+        },
+        {
+            "id": 664469,
+            "rank": 3,
+            "genre_ids": [
+                9648,
+                35,
+                18
+            ],
+            "title": "Amsterdam"
+        },
+        {
+            "id": 13960,
+            "rank": 4,
+            "genre_ids": [
+                18,
+                35,
+                9648
+            ],
+            "title": "ATL"
+        },
+        {
+            "id": 139341,
+            "rank": 5,
+            "genre_ids": [
+                9648,
+                18
+            ],
+            "title": "Mysteries"
+        },
+        {
+            "id": 5165,
+            "rank": 6,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "L'Avventura"
+        },
+        {
+            "id": 24735,
+            "rank": 7,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "Agnes of God"
+        },
+        {
+            "id": 5335,
+            "rank": 8,
+            "genre_ids": [
+                9648,
+                18
+            ],
+            "title": "Theorem"
+        },
+        {
+            "id": 823766,
+            "rank": 9,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "The Wonder"
+        },
+        {
+            "id": 30943,
+            "rank": 10,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "The Deep End of the Ocean"
+        },
+        {
+            "id": 1154265,
+            "rank": 11,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "Lies We Tell"
+        },
+        {
+            "id": 534338,
+            "rank": 12,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "An Interview with God"
+        },
+        {
+            "id": 10740,
+            "rank": 13,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "Birth"
+        },
+        {
+            "id": 20156,
+            "rank": 14,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "Exotica"
+        },
+        {
+            "id": 1939,
+            "rank": 15,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "Laura"
+        },
+        {
+            "id": 369523,
+            "rank": 16,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "The Tale"
+        },
+        {
+            "id": 793445,
+            "rank": 17,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "Chernobyl: Exclusion Zone. The Movie"
+        },
+        {
+            "id": 570352,
+            "rank": 18,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "Agatha and the Truth of Murder"
+        },
+        {
+            "id": 249397,
+            "rank": 19,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "Nymphomaniac: Vol. II"
+        },
+        {
+            "id": 9270,
+            "rank": 20,
+            "genre_ids": [
+                18,
+                9648
+            ],
+            "title": "Brick"
+        },
+        {
+            "id": 308,
+            "rank": 21,
+            "genre_ids": [
+                35,
+                18,
+                9648,
+                10749
+            ],
+            "title": "Broken Flowers"
+        },
+        {
+            "id": 9451,
+            "rank": 22,
+            "genre_ids": [
+                35,
+                10749,
+                18,
+                9648
+            ],
+            "title": "Election"
+        },
+        {
+            "id": 682507,
+            "rank": 23,
+            "genre_ids": [
+                18,
+                9648,
+                10749
+            ],
+            "title": "Where the Crawdads Sing"
+        },
+        {
+            "id": 1173558,
+            "rank": 24,
+            "genre_ids": [
+                10749,
+                9648,
+                18
+            ],
+            "title": "Burning Betrayal"
+        },
+        {
+            "id": 316021,
+            "rank": 25,
+            "genre_ids": [
+                18,
+                9648,
+                10749
+            ],
+            "title": "Frank & Lola"
+        },
+        {
+            "id": 12531,
+            "rank": 26,
+            "genre_ids": [
+                9648,
+                18,
+                10749
+            ],
+            "title": "The Apartment"
+        },
+        {
+            "id": 1844,
+            "rank": 27,
+            "genre_ids": [
+                10749,
+                18,
+                9648
+            ],
+            "title": "Entrapment"
+        },
+        {
+            "id": 286565,
+            "rank": 28,
+            "genre_ids": [
+                9648,
+                18,
+                10749
+            ],
+            "title": "Paper Towns"
+        },
+        {
+            "id": 2044,
+            "rank": 29,
+            "genre_ids": [
+                18,
+                9648,
+                10749
+            ],
+            "title": "The Lake House"
+        },
+        {
+            "id": 512,
+            "rank": 30,
+            "genre_ids": [
+                35,
+                9648
+            ],
+            "title": "Scoop"
+        },
+        {
+            "id": 3049,
+            "rank": 31,
+            "genre_ids": [
+                35,
+                9648
+            ],
+            "title": "Ace Ventura: Pet Detective"
+        },
+        {
+            "id": 607465,
+            "rank": 32,
+            "genre_ids": [
+                35,
+                9648
+            ],
+            "title": "The Confidence Man JP: Fortune"
+        },
+        {
+            "id": 834562,
+            "rank": 33,
+            "genre_ids": [
+                9648,
+                35
+            ],
+            "title": "Poolman"
+        },
+        {
+            "id": 15159,
+            "rank": 34,
+            "genre_ids": [
+                35,
+                9648
+            ],
+            "title": "The Pink Panther 2"
+        },
+        {
+            "id": 869597,
+            "rank": 35,
+            "genre_ids": [
+                35,
+                9648
+            ],
+            "title": "Reunion"
+        },
+        {
+            "id": 9710,
+            "rank": 36,
+            "genre_ids": [
+                12,
+                28,
+                35,
+                9648
+            ],
+            "title": "Allan Quatermain and the Lost City of Gold"
+        },
+        {
+            "id": 7364,
+            "rank": 37,
+            "genre_ids": [
+                28,
+                12,
+                35,
+                18,
+                9648
+            ],
+            "title": "Sahara"
+        },
+        {
+            "id": 177677,
+            "rank": 38,
+            "genre_ids": [
+                28,
+                12
+            ],
+            "title": "Mission: Impossible - Rogue Nation"
+        },
+        {
+            "id": 184315,
+            "rank": 39,
+            "genre_ids": [
+                28,
+                12
+            ],
+            "title": "Hercules"
+        },
+        {
+            "id": 9826,
+            "rank": 40,
+            "genre_ids": [
+                12,
+                28
+            ],
+            "title": "The Phantom"
+        },
+        {
+            "id": 353081,
+            "rank": 41,
+            "genre_ids": [
+                28,
+                12
+            ],
+            "title": "Mission: Impossible - Fallout"
+        },
+        {
+            "id": 289720,
+            "rank": 42,
+            "genre_ids": [
+                28,
+                12
+            ],
+            "title": "Outcast"
+        },
+        {
+            "id": 308504,
+            "rank": 43,
+            "genre_ids": [
+                28,
+                12
+            ],
+            "title": "Last Knights"
+        },
+        {
+            "id": 335977,
+            "rank": 44,
+            "genre_ids": [
+                12,
+                28
+            ],
+            "title": "Indiana Jones and the Dial of Destiny"
+        },
+        {
+            "id": 335787,
+            "rank": 45,
+            "genre_ids": [
+                28,
+                12
+            ],
+            "title": "Uncharted"
+        },
+        {
+            "id": 188207,
+            "rank": 46,
+            "genre_ids": [
+                28,
+                12
+            ],
+            "title": "The Legend of Hercules"
+        },
+        {
+            "id": 9342,
+            "rank": 47,
+            "genre_ids": [
+                28,
+                12
+            ],
+            "title": "The Mask of Zorro"
+        },
+        {
+            "id": 217,
+            "rank": 48,
+            "genre_ids": [
+                12,
+                28
+            ],
+            "title": "Indiana Jones and the Kingdom of the Crystal Skull"
+        },
+        {
+            "id": 270938,
+            "rank": 49,
+            "genre_ids": [
+                12,
+                28
+            ],
+            "title": "Falcon Rising"
+        },
+        {
+            "id": 893334,
+            "rank": 50,
+            "genre_ids": [
+                12,
+                28
+            ],
+            "title": "The Adventures of Maid Marian"
+        }
+    ]
+}
