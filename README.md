@@ -1,62 +1,46 @@
-# centrale-ei-web
+# MovieScore
 
-## Backend
+## Overview
 
-### Project setup
+MovieScore is a website dedicated to movie enthusiasts, providing a platform to explore and discover movies, along with their ratings, reviews, and recommendations. This project was developed for educational purposes, specifically for the subject of **(EI)**.
 
-```
-cd backend
-npm install
-cp .env.example .env
-```
+## Team Members
 
-### Run database migrations
+- Zakaria Bheddar ([@zikouS1](https://github.com/zikouS1))
+- Imad Ait Ben Saleh ([@Imad-Ait-Ben-Salah](https://github.com/Imad-Ait-Ben-Salah))
+- Yassine Messioui ([@YassineMessioui](https://github.com/YassineMessioui))
 
-```
-npm run migration:run
-```
+## Features
 
-### Start and auto-reload for development
+- Browse a vast collection of movies.
+- View detailed information about each movie, including ratings and reviews.
+- Write and read reviews for movies.
+- Get personalized recommendations based on your preferences.
 
-```
-npm run dev
-```
+## Technologies Used
 
-### Start for production
+- Frontend: HTML, CSS, JavaScript
+- Backend: Node.js, Express.js
+- Database: SQLite3
+- Additional Tools: React.js
 
-```
-npm run start
-```
+## Installation
 
-### Lint and fix files
+To run this project locally, follow these steps:
 
-```
-npm run lint
-```
-
-## Frontend
-
-### Project setup
-
-```
-cd frontend
-npm install
-```
-
-### Compile and hot-reload for development
-
-```
-npm run dev
-```
-
-### Compile and minifiy for production
-
-```
-npm run build
-```
-
-### Lint and fix files
-
-```
-npm run lint
-```
+1. Clone this repository.
+   ```
+   git clone https://github.com/your-username/MovieScore.git
+   ```
+2. Navigate to the project directory.
+   ```
+   cd MovieScore
+   ```
+3. Install dependencies.
+   ```
+   npm install
+   ```
+4. Start the server.
+   ```
+   npm start
+   ```
