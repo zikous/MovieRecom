@@ -56,6 +56,6 @@ npm install
 ```
 npm run dev
 ```
-15. Launch the website in your browser by visiting [localhost:3000](http://localhost:3000).
+15. Launch the website in your browser by visiting [localhost:3000](http://localhost:3000)
 
 Feel free to explore the website and enjoy your movie experience!
