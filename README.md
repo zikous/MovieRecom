@@ -29,19 +29,21 @@ MovieScore is a website dedicated to movie enthusiasts, providing a platform to 
 To run this project locally, follow these steps:
 
 1. Clone this repository:
-''' git clone https://github.com/your-username/MovieScore.git '''
-2. Navigate to the project directory:
+'''
+git clone https://github.com/your-username/MovieScore.git
+'''
+3. Navigate to the project directory:
 ''' cd MovieScore '''
-3. Install frontend dependencies:
+4. Install frontend dependencies:
 ''' npm install '''
-4. Start the frontend server:
+5. Start the frontend server:
 ''' npm run dev '''
-5. Navigate to the backend directory:
+6. Navigate to the backend directory:
 ''' cd backend '''
-6. Install backend dependencies:
+7. Install backend dependencies:
 ''' npm install '''
-7. Start the backend server:
+8. Start the backend server:
 ''' npm run dev '''
-8. Launch the website in your browser by visiting [localhost:3000](http://localhost:3000).
+9. Launch the website in your browser by visiting [localhost:3000](http://localhost:3000).
 
 Feel free to explore the website and enjoy your movie experience!
