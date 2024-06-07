@@ -33,17 +33,29 @@ To run this project locally, follow these steps:
 git clone https://github.com/your-username/MovieScore.git
 ```
 3. Navigate to the project directory:
-``` cd MovieScore ```
-4. Install frontend dependencies:
-``` npm install ```
-5. Start the frontend server:
-``` npm run dev ```
-6. Navigate to the backend directory:
-``` cd backend ```
-7. Install backend dependencies:
-``` npm install ```
-8. Start the backend server:
-``` npm run dev ```
-9. Launch the website in your browser by visiting [localhost:3000](http://localhost:3000).
+```
+cd MovieScore
+```
+5. Install frontend dependencies:
+```
+npm install
+```
+7. Start the frontend server:
+```
+npm run dev
+```
+9. Navigate to the backend directory:
+```
+cd backend
+```
+11. Install backend dependencies:
+```
+npm install
+```
+13. Start the backend server:
+```
+npm run dev
+```
+15. Launch the website in your browser by visiting [localhost:3000](http://localhost:3000).
 
 Feel free to explore the website and enjoy your movie experience!
