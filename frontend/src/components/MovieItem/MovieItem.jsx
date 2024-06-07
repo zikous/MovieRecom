@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import './MovieItem.css';
 
 const truncateDescription = (description, wordLimit) => {
-  const words = description.split(' ');
-  if (words.length > wordLimit) {
-    return words.slice(0, wordLimit).join(' ') + '...';
+  if (description) {
+    const words = description.split(' ');
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(' ') + '...';
+    }
+    return description;
   }
-  return description;
+  return '';
 };
 
 const MovieItem = ({ movie }) => {

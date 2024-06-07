@@ -102,7 +102,7 @@ const Header = () => {
         <Link to="/upcoming">
           <span>Upcoming</span>
         </Link>
-        <Link to="/recommended">
+        <Link to="/recommendations">
           <span>Recommended</span>
         </Link>
       </div>

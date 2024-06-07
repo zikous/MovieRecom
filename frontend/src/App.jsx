@@ -11,6 +11,7 @@ import Upcoming from './pages/Upcoming/Upcoming';
 import SearchResults from './components/SearchResults/SearchResults';
 import GenreList from './pages/Genre/Genre';
 import MovieDetail from './pages/MovieDetail/MovieDetail';
+import Recommendation from './pages/Recommendation/Recommendation'; // Import the Recommendation component
 
 function App() {
   return (
@@ -23,9 +24,10 @@ function App() {
         <Route path="popular" element={<Popular />} />
         <Route path="toprated" element={<TopRated />} />
         <Route path="upcoming" element={<Upcoming />} />
+        <Route path="recommendations" element={<Recommendation />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/genre/:GenreId" element={<GenreList />} />
-        <Route path="/movie/:id" element={<MovieDetail />} /> 
+        <Route path="/movie/:id" element={<MovieDetail />} />
       </Routes>
     </Layout>
   );
