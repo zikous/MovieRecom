@@ -4,6 +4,7 @@ import cors from 'cors';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
 import moviesRouter from './routes/movies.js';
+import ratingRouter from './routes/rating.js';
 import recommendationsRouter from './routes/recommendations.js'; // Import the new route
 import { routeNotFoundJsonHandler } from './services/routeNotFoundJsonHandler.js';
 import { jsonErrorHandler } from './services/jsonErrorHandler.js';
@@ -24,6 +25,7 @@ appDataSource
     app.use('/', indexRouter);
     app.use('/users', usersRouter);
     app.use('/movies', moviesRouter);
+    app.use('/rating', ratingRouter);
     app.use('/recommendations', recommendationsRouter); // Register the new route
 
     // Register 404 middleware and error handler

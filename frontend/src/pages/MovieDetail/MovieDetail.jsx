@@ -96,10 +96,20 @@ const MovieDetail = () => {
     (video) => video.type === 'Trailer' && video.site === 'YouTube'
   );
 
-  const changeRating = (newRating) => {
+  const changeRating = async (newRating) => {
     setRating(newRating);
-    // Here, you will handle saving the rating to the backend later
     console.log(`New rating is: ${newRating}`);
+
+    try {
+      await axios.post('http://localhost:8000/rating/rate', {
+        id_user: 1,
+        id_movie: id,
+        rating: newRating,
+      });
+      console.log('Rating saved successfully');
+    } catch (error) {
+      console.error('Error saving rating:', error);
+    }
   };
 
   return (
