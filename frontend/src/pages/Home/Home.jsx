@@ -200,17 +200,31 @@ const Home = () => {
     }
     return description;
   };
+  const carouselRef = useRef(null);
+
+  useEffect(() => {
+    if (carouselRef.current) {
+      setTimeout(() => {
+        carouselRef.current.moveTo(1);
+      }, 500); // Delay to ensure the carousel is fully initialized
+    }
+  }, []);
 
   return (
     <>
       <div className="poster">
         <Carousel
+          ref={carouselRef}
           showThumbs={false}
           autoPlay={true}
           interval={5000} // Adjust the interval between slides if needed
           infiniteLoop={true}
           transitionTime={500} // Adjust the transition time for sliding effect
           dynamicHeight={false} // Ensure consistent slide heights
+          onClickItem={() => {}}
+          onChange={() => {}}
+          onSwipeStart={() => {}}
+          onSwipeEnd={() => {}}
         >
           {popularMovies.slice(0, 10).map((movie) => (
             <Link
