@@ -6,7 +6,7 @@ MovieScore is a website dedicated to movie enthusiasts, providing a platform to 
 
 ## Team Members
 
-- Zakaria Bheddar ([@zikouS1](https://github.com/zikouS1))
+- Zakaria Bheddar ([@zikouS1](https://github.com/zikouss))
 - Imad Ait Ben Saleh ([@Imad-Ait-Ben-Salah](https://github.com/Imad-Ait-Ben-Salah))
 - Yassine Messioui ([@YassineMessioui](https://github.com/YassineMessioui))
 
@@ -30,7 +30,7 @@ To run this project locally, follow these steps:
 
 1. Clone this repository:
 ```
-git clone https://github.com/your-username/MovieScore.git
+git clone https://github.com/zikouss/MovieScore.git
 ```
 3. Navigate to the project directory:
 ```
