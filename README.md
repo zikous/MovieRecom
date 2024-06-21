@@ -1,4 +1,4 @@
-# MovieScore
+# MovieScope
 
 ## Overview
 
