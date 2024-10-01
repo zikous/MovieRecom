@@ -7,7 +7,7 @@ MovieScore is a website dedicated to movie enthusiasts, providing a platform to 
 ## Team Members
 
 - Zakaria Bheddar ([@zikouS1](https://github.com/zikouss))
-- Imad Ait Ben Saleh ([@Imad-Ait-Ben-Salah](https://github.com/Imad-Ait-Ben-Salah))
+- Imad Ait Ben Saleh ([@Imdbn](https://github.com/Imdbn))
 - Yassine Messioui ([@YassineMessioui](https://github.com/YassineMessioui))
 
 ## Features
