@@ -4,13 +4,17 @@ from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
 import numpy as np
 from . import models, crud
+from typing import List
 
 
 def get_recommendations(
-    user_id: int, db: Session, n_recommendations: int = 5
-) -> list[int]:
-    """TF-IDF based recommender for single user"""
-    # Get all movies
+    db: Session,
+    n_recommendations: int = 10,
+    recent_weight_factor: float = 2.0,
+) -> List[int]:
+    """
+    Recommend movies based on content similarity, prioritizing recent ratings.
+    """
     movies = crud.get_movies(db)
     if not movies:
         return []
@@ -22,44 +26,81 @@ def get_recommendations(
                 "title": m.title,
                 "overview": m.overview or "",
                 "genres": m.genres or "",
+                "vote_average": m.vote_average or 0,
                 "combined_text": f"{m.title} {m.overview or ''} {m.genres or ''}",
             }
             for m in movies
         ]
     )
 
-    # Get user's liked movies (rating >= 3.5)
-    user_ratings = crud.get_user_ratings(db, user_id)
-    liked_movies = [r.movie_id for r in user_ratings if r.rating >= 3.5]
+    user_ratings = crud.get_user_ratings(db)
+    if not user_ratings:
+        return get_popular_recommendations(db, n_recommendations)
 
-    if not liked_movies:
-        # Fallback to popular movies if no ratings
-        popular_movies = (
-            db.query(models.Movie)
-            .order_by(models.Movie.vote_average.desc())
-            .limit(n_recommendations)
-            .all()
-        )
-        return [m.id for m in popular_movies]
+    user_ratings_df = pd.DataFrame(
+        [
+            {
+                "movie_id": r.movie_id,
+                "rating": r.rating,
+                "order_weight": (i + 1) / len(user_ratings),
+            }
+            for i, r in enumerate(user_ratings)
+            if r.rating > 0
+        ]
+    )
 
-    # Create TF-IDF matrix
-    tfidf = TfidfVectorizer(stop_words="english")
+    return get_order_weighted_recommendations(
+        movies_df, user_ratings_df, n_recommendations, recent_weight_factor
+    )
+
+
+def get_order_weighted_recommendations(
+    movies_df: pd.DataFrame,
+    user_ratings_df: pd.DataFrame,
+    n_recs: int,
+    recent_weight_factor: float,
+) -> List[int]:
+    rated_movies = pd.merge(
+        user_ratings_df, movies_df, left_on="movie_id", right_on="id"
+    )
+
+    if rated_movies.empty:
+        return []
+
+    tfidf = TfidfVectorizer(
+        stop_words="english", ngram_range=(1, 2), max_features=10000
+    )
     tfidf_matrix = tfidf.fit_transform(movies_df["combined_text"])
 
-    # Get average vector of liked movies
-    liked_indices = movies_df[movies_df["id"].isin(liked_movies)].index
-    liked_vectors = tfidf_matrix[liked_indices]
-    avg_vector = liked_vectors.mean(axis=0)
+    rated_indices = movies_df[movies_df["id"].isin(rated_movies["id"])].index
+    rated_vectors = tfidf_matrix[rated_indices]
 
-    # Calculate cosine similarity
-    cosine_sim = cosine_similarity(np.asarray(avg_vector), tfidf_matrix).flatten()
+    ratings = rated_movies["rating"].values
+    order_weights = rated_movies["order_weight"].values
+    combined_weights = ((ratings - 1) / 4) * (
+        1 + (recent_weight_factor - 1) * order_weights
+    )
 
-    # Get top recommendations excluding already liked movies
-    movies_df["similarity"] = cosine_sim
+    avg_vector = np.average(rated_vectors.toarray(), axis=0, weights=combined_weights)
+
+    cosine_sim = cosine_similarity(avg_vector.reshape(1, -1), tfidf_matrix).flatten()
+
+    movies_df["content_score"] = cosine_sim
     recommendations = (
-        movies_df[~movies_df["id"].isin(liked_movies)]
-        .sort_values("similarity", ascending=False)
-        .head(n_recommendations)
+        movies_df[~movies_df["id"].isin(rated_movies["id"])]
+        .sort_values("content_score", ascending=False)
+        .head(n_recs)
     )
 
     return recommendations["id"].tolist()
+
+
+def get_popular_recommendations(db: Session, n_recs: int) -> List[int]:
+    popular_movies = (
+        db.query(models.Movie)
+        .filter(models.Movie.vote_average > 7.0)
+        .order_by(models.Movie.vote_average.desc())
+        .limit(n_recs)
+        .all()
+    )
+    return [m.id for m in popular_movies]

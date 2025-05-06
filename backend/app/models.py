@@ -1,5 +1,8 @@
+# models.py
 from sqlalchemy import Column, Integer, String, Float, Text, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy import String
 from .database import Base
 
 
@@ -12,6 +15,7 @@ class Movie(Base):
     poster_path = Column(String)
     vote_average = Column(Float)
     genres = Column(String)
+    categories = Column(String)
 
     ratings = relationship("Rating", back_populates="movie")
 
@@ -20,7 +24,6 @@ class Rating(Base):
     __tablename__ = "ratings"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, index=True, default=1)
     movie_id = Column(Integer, ForeignKey("movies.id"))
     rating = Column(Float)
 

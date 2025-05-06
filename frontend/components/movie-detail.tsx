@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import type { Movie } from "@/lib/types";
 import { fetchUserRating, getMovie, submitRating } from "@/lib/api";
@@ -23,8 +22,7 @@ export function MovieDetail({ id }: { id: number }) {
         const data = await getMovie(id);
         setMovie(data);
 
-        // Fetch user rating if available
-        const userRatingData = await fetchUserRating(id); // Assuming getUserRating is a function in your API
+        const userRatingData = await fetchUserRating(id);
         setUserRating(userRatingData || null);
       } catch (error) {
         console.error("Error fetching movie or user rating:", error);
